@@ -37,7 +37,7 @@ export default class BarcodeScannerExample extends React.Component {
           justifyContent: 'flex-start',
         }}>
         <View style={{height: 80, justifyContent: 'flex-end'}}>
-          <Text style={{textAlign: 'center', fontSize: 28 }}>THE ETHICAL SCAN</Text>
+          <Text style={{ left: 20, fontSize: 28 }}>THE ETHICAL SCAN</Text>
         </View>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
@@ -55,10 +55,10 @@ export default class BarcodeScannerExample extends React.Component {
         //alert(`Barcode scanned: Your Sweather has a rating of 3!` + json.title); // DATA IS THE VALUE
         Alert.alert(
           'Product Rating',
-          'The product you\'ve scanned received a rating of three stars',
+          'The product you\'ve scanned received a rating of three stars. ' + data,
           [
             {text: 'Retrieve further Infomations', onPress: () => console.log('Ask me later pressed')},
-            {text: 'OK', onPress: () => {console.log('OK Pressed'); this.setState({scanned: false}); }},
+            {text: 'OK', onPress: () => {console.log('OK Pressed ' + data ); this.setState({scanned: false}); }},
           ],
           {cancelable: false},
         );
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   wrapper: {
     ...StyleSheet.absoluteFillObject,
     top: 80,
+    bottom: 60  ,
     backgroundColor: 'transparent',
   },
 });
