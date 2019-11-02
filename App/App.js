@@ -1,62 +1,76 @@
-import { AppLoading } from 'expo';
-import { Asset } from 'expo-asset';
-import * as Font from 'expo-font';
-import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import * as React from 'react';
+import { Text, View, StyleSheet, Button, Alert } from 'react-native';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 
-import AppNavigator from './navigation/AppNavigator';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
-export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+export default class BarcodeScannerExample extends React.Component {
+  state = {
+    hasCameraPermission: null,
+    scanned: false,
+  };
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
+  async componentDidMount() {
+    this.getPermissionsAsync();
+  }
+
+  getPermissionsAsync = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({ hasCameraPermission: status === 'granted' });
+  }
+
+  render() {
+    const { hasCameraPermission, scanned } = this.state;
+
+    if (hasCameraPermission === null) {
+      return <Text>Requesting for camera permission</Text>;
+    }
+    if (hasCameraPermission === false) {
+      return <Text>No access to camera</Text>;
+    }
     return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
-      />
-    );
-  } else {
-    return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}>
+        <View style={{height: 80, justifyContent: 'flex-end'}}>
+          <Text style={{textAlign: 'center', fontSize: 28 }}>THE ETHICAL SCAN</Text>
+        </View>
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
+          style={styles.wrapper}
+        />
       </View>
     );
   }
-}
 
-async function loadResourcesAsync() {
-  await Promise.all([
-    Asset.loadAsync([
-      require('./assets/images/robot-dev.png'),
-      require('./assets/images/robot-prod.png'),
-    ]),
-    Font.loadAsync({
-      // This is the font that we are using for our tab bar
-      ...Ionicons.font,
-      // We include SpaceMono because we use it in HomeScreen.js. Feel free to
-      // remove this if you are not using it in your app
-      'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-    }),
-  ]);
-}
-
-function handleLoadingError(error) {
-  // In this case, you might want to report the error to your error reporting
-  // service, for example Sentry
-  console.warn(error);
-}
-
-function handleFinishLoading(setLoadingComplete) {
-  setLoadingComplete(true);
+  handleBarCodeScanned = ({ type, data }) => {
+    this.setState({ scanned: true }); 
+    fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then(response => response.json())
+      .then(json => {
+        //alert(`Barcode scanned: Your Sweather has a rating of 3!` + json.title); // DATA IS THE VALUE
+        Alert.alert(
+          'Product Rating',
+          'The product you\'ve scanned received a rating of three stars',
+          [
+            {text: 'Retrieve further Infomations', onPress: () => console.log('Ask me later pressed')},
+            {text: 'OK', onPress: () => {console.log('OK Pressed'); this.setState({scanned: false}); }},
+          ],
+          {cancelable: false},
+        );
+      }); 
+    
+  };
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
+  wrapper: {
+    ...StyleSheet.absoluteFillObject,
+    top: 80,
+    backgroundColor: 'transparent',
   },
 });
