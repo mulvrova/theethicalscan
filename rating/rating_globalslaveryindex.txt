@@ -1,0 +1,2 @@
+32    35.18
+Name: total_%, dtype: float64
