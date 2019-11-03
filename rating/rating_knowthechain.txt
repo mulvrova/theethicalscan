@@ -1,0 +1,2 @@
+6    64.862973
+Name: Total\n2018, dtype: float64
