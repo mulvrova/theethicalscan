@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, Button, Alert } from 'react-native';
-import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
@@ -52,7 +51,6 @@ export default class BarcodeScannerExample extends React.Component {
     fetch('https://jsonplaceholder.typicode.com/todos/1')
       .then(response => response.json())
       .then(json => {
-        //alert(`Barcode scanned: Your Sweather has a rating of 3!` + json.title); // DATA IS THE VALUE
         Alert.alert(
           'Product Rating',
           'The product you\'ve scanned received a rating of three stars. ' + data,
