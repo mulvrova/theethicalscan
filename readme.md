@@ -1,4 +1,8 @@
 # The Ethical Scan
+![Splash Screen](https://ujelang.com/splash_small.png "Splash Screen")
+![Splash Screen](https://ujelang.com/detailed-screen_small.png "Splash Screen")
+
+
 
 ## Architectural Remarks
 The Ethical Scan runs as an App on iOS as well as Android using React Native (see App/ subfolder). The App itself requests data from a microservice that is implemented as a PHP script (see PHP subfolder). The data are regulary provided with a Jupyter Notebook we provide in JupyterNotebooks subfolder.
