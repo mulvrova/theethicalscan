@@ -1,7 +1,7 @@
 # The Ethical Scan
 
 ## Architectural Remarks
-The Ethical scan runs as a an App on iOS as well as Android using React Native (see App subfolder). The App itself requests data from a microservice that is implemented as a PHP script (see PHP subfolder). The data are regulary provided with a Jupyter Notebook we provide in JupyterNotebooks subfolder.
+The Ethical Scan runs as an App on iOS as well as Android using React Native (see App/ subfolder). The App itself requests data from a microservice that is implemented as a PHP script (see PHP subfolder). The data are regulary provided with a Jupyter Notebook we provide in JupyterNotebooks subfolder.
 
 ## Requirements
 *Frontend*
