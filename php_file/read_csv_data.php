@@ -1,4 +1,4 @@
-<?
+<?php
 $csvFile = file("dummy_data.csv");
 $data = [];
 foreach ($csvFile as $line) {
@@ -7,7 +7,7 @@ foreach ($csvFile as $line) {
 
 $barcode=$data[1];
 
-foreach(range(2,4) as $n) {
+foreach(range(1,1) as $n) {
   switch($data[$n]) {
     case $data[$n] >= 0 and $data[$n]<1:
       $data[$n]="Really bad";
@@ -32,12 +32,8 @@ foreach(range(2,4) as $n) {
 
 $barcode_input="1073139284309900000000000000000000000000000000";
 
-// if (stristr($barcode,$barcode_input)){
-  $fp = fopen('results.json', 'w');
-  fwrite($fp, json_encode($data));
-  fclose($fp);
-// }
 
+/*
 foreach($barcode as $key){
         if( stristr( $key, $barcode_input ) ){
 
@@ -46,4 +42,14 @@ foreach($barcode as $key){
           fclose($fp);
         }
     }
+    */
+
+    print_r($barcode);
+  for ($i = 0; $i < count($barcode); $i++) {
+  if($barcode_input != $barcode[$i][2])
+    continue;
+  $tempArray = array();
+  $tempArray["Overall"] = barcode[5][$i];
+  echo "test:" . json_encode($tempArray);
+}
 ?>
